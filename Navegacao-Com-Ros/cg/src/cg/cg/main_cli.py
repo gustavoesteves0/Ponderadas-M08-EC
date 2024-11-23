@@ -1,10 +1,7 @@
 import typer
 import inquirer
-import logging
-from .navegacao_reativa import main as main_reativa
-from .navegacao_mapa import main as main_mapa
-
-logging.basicConfig(level=logging.INFO)
+from .reactive_navigation import run_reactive_navigation
+from .map_navigation import run_map_based_navigation
 
 app = typer.Typer()
 
@@ -12,13 +9,11 @@ app = typer.Typer()
 def processar_respostas(respostas):
 
     if respostas["opcao"] == "Reativa":
-        logging.info("Iniciando navegação reativa...")
         typer.echo("Iniciando navegação reativa...")
-        main_reativa() 
+        run_reactive_navigation() 
     elif respostas["opcao"] == "Mapa":
-        logging.info("Iniciando navegação por mapa...")
         typer.echo("Iniciando navegação por mapa...")
-        main_mapa()  
+        run_map_based_navigation()  
 
 # Comando para escolher a navegação
 @app.command()
