@@ -1,0 +1,1 @@
+O readme de cada Ponderada esta em seu devido diretorio

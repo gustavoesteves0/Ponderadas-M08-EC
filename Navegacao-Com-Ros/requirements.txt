@@ -1,0 +1,8 @@
+rclpy==1.0.0
+typer==0.9.0
+python-inquirer==2.10.0
+numpy==1.21.2
+setuptools==58.1.0
+colcon-common-extensions==0.3.0
+ros2cli==1.0.0
+ros2-interfaces==1.0.0
