@@ -1,0 +1,7 @@
+rclpy
+typer
+python-inquirer
+numpy
+setuptools
+colcon-common-extensions
+ros2cli

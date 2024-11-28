@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from cg_interfaces.srv import MoveCmd, GetMap
 import heapq
+import time
 
 
 def reconstruct_path(came_from, current):
@@ -188,17 +189,45 @@ class MapBasedNavigation(Node):
         self.get_logger().info('Navegação concluída!')
 
 
-        self.get_logger().info('Navegação concluída!')
+def main(args=None):
+    """Main function to initialize and run the node."""
+    if not rclpy.ok():
+        rclpy.init(args=args)
+    navigation_node = MapBasedNavigation()
 
-
-def run_map_based_navigation():
-    node = MapBasedNavigation()
     try:
-        # Example start and goal positions
-        start = (2, 2)  # Replace with actual start position
-        goal = (17, 17)  # Replace with actual goal position
-        node.navigate(start, goal)
+        # Obter o mapa e suas informações
+        occupancy_grid, shape = navigation_node.get_map()
+        if occupancy_grid is None or shape is None:
+            navigation_node.get_logger().error('Falha ao obter o mapa. Encerrando.')
+            return
+
+        # Determinar a posição inicial e o objetivo a partir do mapa
+        rows, cols = shape
+        start = None
+        goal = None
+
+        for r in range(rows):
+            for c in range(cols):
+                cell_value = occupancy_grid[r * cols + c]
+                if cell_value == 'r':  # Indica a posição inicial do robô
+                    start = (r, c)
+                elif cell_value == 't':  # Indica a posição do objetivo/target
+                    goal = (r, c)
+
+        if start is None or goal is None:
+            navigation_node.get_logger().error('Posição inicial ou objetivo não encontrados no mapa. Encerrando.')
+            return
+
+        navigation_node.get_logger().info(f'Posição inicial encontrada: {start}')
+        navigation_node.get_logger().info(f'Objetivo encontrado: {goal}')
+
+        # Iniciar a navegação
+        navigation_node.navigate(start, goal)
+
     except KeyboardInterrupt:
-        pass
+        navigation_node.get_logger().info('Execução interrompida pelo usuário.')
     finally:
-        node.destroy_node()
+        navigation_node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()

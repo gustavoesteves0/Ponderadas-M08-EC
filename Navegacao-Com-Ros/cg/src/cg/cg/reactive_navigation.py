@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from cg_interfaces.srv import MoveCmd
-
+import time
 
 class ReactiveNavigation(Node):
     def __init__(self):
@@ -110,12 +110,19 @@ class ReactiveNavigation(Node):
                 self.get_logger().error('Nenhuma direção válida encontrada. Encerrando.')
                 break
 
+def main(args=None):
+    """Função principal para inicializar e rodar o nó."""
+    rclpy.init(args=args)
+    reactive_navigation_node = ReactiveNavigation()
 
-def run_reactive_navigation():
-    node = ReactiveNavigation()
     try:
-        node.navigate()
+        reactive_navigation_node.navigate()
     except KeyboardInterrupt:
-        pass
+        reactive_navigation_node.get_logger().info('Execução interrompida pelo usuário.')
     finally:
-        node.destroy_node()
+        reactive_navigation_node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

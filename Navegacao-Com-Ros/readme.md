@@ -28,6 +28,8 @@ git clone git@github.com:gustavoesteves0/Ponderadas-M08-EC.git
 &emsp;Depois de clonar o repositório, navegue até a pasta raiz do projeto no terminal, ative o ambiente virtual do Python com os comandos abaixo e instale as dependências necessárias:
 
 ```
+cd Navegacao-Com-Ros/cg/src
+
 python3 -m venv venv
 
 source venv/bin/activate
