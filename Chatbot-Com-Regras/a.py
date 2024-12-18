@@ -1,27 +1,22 @@
-#!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import re
 
-# Dicionario de intenções e padrões
 intents = {
     "va para": r"(va para|dirija-se ao|me leve para|se dirija ate)\s+(\w+)",
 }
 
-# Funções para ações fictícias do robô
 def go_to_location(location):
     return f"O robô esta se dirigindo para a {location}."
 
 def action_not_understood():
     return "Desculpe, não entendi o comando. Tente novamente."
 
-# Mapeamento de intenções para ações
 actions = {
     "va para": go_to_location,
 }
 
-# Nó ROS 2 - Chatbot
 class ChatbotNode(Node):
     def __init__(self):
         super().__init__('chatbot_node')
@@ -58,7 +53,6 @@ class ChatbotNode(Node):
         except KeyboardInterrupt:
             self.get_logger().info("Chatbot interrompido pelo usuario.")
 
-# Função principal
 def main(args=None):
     rclpy.init(args=args)
     chatbot = ChatbotNode()
