@@ -15,6 +15,9 @@ def action_not_understood():
 
 actions = {
     "va para": go_to_location,
+    "dirija-se ao": go_to_location,
+    "me leve para": go_to_location,
+    "se dirija ate": go_to_location,
 }
 
 class ChatbotNode(Node):
@@ -41,11 +44,9 @@ class ChatbotNode(Node):
                     self.get_logger().info("Encerrando o chatbot.")
                     break
 
-                # Processamento do comando
                 feedback = self.process_command(user_input)
                 self.get_logger().info(feedback)
 
-                # Publica feedback no tópico
                 msg = String()
                 msg.data = feedback
                 self.publisher_.publish(msg)
